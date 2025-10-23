@@ -1,5 +1,7 @@
+URL - http://lckd-password-manager-frontend-2024.s3-website.eu-north-1.amazonaws.com/
+
 Individuell examination - LCKD password generator
-Instruktioner
+
 Du ska bygga en enkel lösenordshanterare där man som användare kan lägga till och ta bort sina lösenord. Du ska bygga både en frontend i React (annat ramverk är godkänt med) och ett serverless API i AWS. Din frontend ska vara "hostad" i en S3 - bucket på AWS och du ska använda dig av ditt API i dina API-anrop.
 
 Funktionella krav
