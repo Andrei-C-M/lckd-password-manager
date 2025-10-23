@@ -1,0 +1,66 @@
+service: lckd-password-manager
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    PASSWORDS_TABLE: ${self:service}-passwords-${opt:stage, 'dev'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: !GetAtt PasswordsTable.Arn
+
+functions:
+  createPassword:
+    handler: handler.createPassword
+    events:
+      - http:
+          path: passwords
+          method: post
+          cors: true
+  
+  getPasswords:
+    handler: handler.getPasswords
+    events:
+      - http:
+          path: passwords
+          method: get
+          cors: true
+  
+  updatePassword:
+    handler: handler.updatePassword
+    events:
+      - http:
+          path: passwords/{id}
+          method: put
+          cors: true
+  
+  deletePassword:
+    handler: handler.deletePassword
+    events:
+      - http:
+          path: passwords/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    PasswordsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PASSWORDS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

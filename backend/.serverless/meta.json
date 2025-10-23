@@ -1,0 +1,145 @@
+{
+  "C:\\Users\\andre\\OneDrive\\Documents\\lckd\\lckd\\backend\\serverless.yml": {
+    "versionFramework": "4.22.0",
+    "servicePath": "C:\\Users\\andre\\OneDrive\\Documents\\lckd\\lckd\\backend\\serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "lckd-password-manager",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs18.x",
+        "region": "us-east-1",
+        "environment": {
+          "PASSWORDS_TABLE": "<REDACTED>"
+        },
+        "iam": {
+          "role": {
+            "statements": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:PutItem",
+                  "dynamodb:GetItem",
+                  "dynamodb:Scan",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "PasswordsTable",
+                    "Arn"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "stage": "dev",
+        "versionFunctions": true
+      },
+      "functions": {
+        "createPassword": "<REDACTED>",
+        "getPasswords": "<REDACTED>",
+        "updatePassword": "<REDACTED>",
+        "deletePassword": "<REDACTED>"
+      },
+      "resources": {
+        "Resources": {
+          "PasswordsTable": "<REDACTED>"
+        }
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "nodejs18.x",
+      "region": "us-east-1",
+      "environment": {
+        "PASSWORDS_TABLE": "<REDACTED>"
+      },
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
+              ],
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PasswordsTable",
+                  "Arn"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "stage": "dev",
+      "versionFunctions": true
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "serviceRawFile": "service: lckd-password-manager\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs18.x\r\n  region: us-east-1\r\n  environment:\r\n    PASSWORDS_TABLE: ${self:service}-passwords-${opt:stage, 'dev'}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:PutItem\r\n            - dynamodb:GetItem\r\n            - dynamodb:Scan\r\n            - dynamodb:UpdateItem\r\n            - dynamodb:DeleteItem\r\n          Resource: !GetAtt PasswordsTable.Arn\r\n\r\nfunctions:\r\n  createPassword:\r\n    handler: handler.createPassword\r\n    events:\r\n      - http:\r\n          path: passwords\r\n          method: post\r\n          cors: true\r\n  \r\n  getPasswords:\r\n    handler: handler.getPasswords\r\n    events:\r\n      - http:\r\n          path: passwords\r\n          method: get\r\n          cors: true\r\n  \r\n  updatePassword:\r\n    handler: handler.updatePassword\r\n    events:\r\n      - http:\r\n          path: passwords/{id}\r\n          method: put\r\n          cors: true\r\n  \r\n  deletePassword:\r\n    handler: handler.deletePassword\r\n    events:\r\n      - http:\r\n          path: passwords/{id}\r\n          method: delete\r\n          cors: true\r\n\r\nresources:\r\n  Resources:\r\n    PasswordsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: ${self:provider.environment.PASSWORDS_TABLE}\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        BillingMode: PAY_PER_REQUEST\r\n",
+    "command": [
+      "info"
+    ],
+    "options": {},
+    "orgId": "25e8ecaa-9152-46be-b914-9c31b7f8d151",
+    "orgName": "aws1andrei",
+    "userId": null,
+    "serviceProviderAwsAccountId": "281762848809",
+    "serviceProviderAwsCfStackName": "lckd-password-manager-dev",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:281762848809:stack/lckd-password-manager-dev/3368b330-af66-11f0-be20-0e0f216d258b",
+    "serviceProviderAwsCfStackCreated": "2025-10-22T16:43:13.401Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "CreatePasswordLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:281762848809:function:lckd-password-manager-dev-createPassword:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-lckd-password-manager-dev-CreatePasswordLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "GetPasswordsLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:281762848809:function:lckd-password-manager-dev-getPasswords:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-lckd-password-manager-dev-GetPasswordsLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "DeletePasswordLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:281762848809:function:lckd-password-manager-dev-deletePassword:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-lckd-password-manager-dev-DeletePasswordLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://u4bktng7d8.execute-api.us-east-1.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-lckd-password-manager-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-574a7fc9-5e75",
+        "ExportName": "sls-lckd-password-manager-dev-ServerlessDeploymentBucketName"
+      },
+      {
+        "OutputKey": "UpdatePasswordLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:281762848809:function:lckd-password-manager-dev-updatePassword:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-lckd-password-manager-dev-UpdatePasswordLambdaFunctionQualifiedArn"
+      }
+    ]
+  }
+}
